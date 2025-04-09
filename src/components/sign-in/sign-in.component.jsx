@@ -18,7 +18,7 @@ class SignIn extends React.Component {
 
     handleSubmit = async event => {
 
-        event.preventDefault();
+        event.preventDefault(); //to prevent default behaviour of submitting the form before clicking the submit button
         const { email, password } = this.state;
         
         try {
@@ -63,9 +63,7 @@ class SignIn extends React.Component {
                     <div className="buttons">
                     <CustomButton type="submit"> Sign in </CustomButton> 
                     <CustomButton onClick={signInWithGoogle} isGoogleSignIn > Sign in with google </CustomButton> 
-                    </div>
-                    
-
+                    </div>                    
                 </form>
             </div>
         );
