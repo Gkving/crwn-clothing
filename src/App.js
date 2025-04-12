@@ -1,6 +1,6 @@
 import React, {  } from 'react';
 import './App.css';
-import { Switch, Route,  Routes } from 'react-router-dom';
+import {  Route,  Routes, Navigate } from 'react-router-dom';
 import HomePage from '../src/pages/hompage/homepage.component';
 import ShopPage from './pages/shop/shop.component.jsx';
 import Header from './components/header/header.component.jsx';
@@ -9,6 +9,7 @@ import { auth, createUserProfileDocument } from './firebase/firebase.util';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { createStore } from 'redux';
+import { current } from '@reduxjs/toolkit';
 // const HatsPage = () => (
 //   <div>
 //     <h1>HATS PAGE</h1>
@@ -52,15 +53,20 @@ class App extends React.Component{
           <Routes>
               <Route exact path='/' element={<HomePage/>} />
               <Route path='/shop' element={<ShopPage/>} />
-              <Route path='/signin' element={<SignInAndSignUp/>} />
+              <Route path='/signin' element= {this.props.currentUser? <Navigate to='/' /> : (<SignInAndSignUp/>) } /> //this is a redirect to the home page if the user is already signed in
           </Routes>
         </div>
     );
   }
 }
 
+
+const mapStateToProp = ({user}) => ({
+  currentUser: user.currentUser
+})
+
 const mapDispatchToProps = (dispatch) => ({ 
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
 
-export default connect(null, mapDispatchToProps) (App);
+export default connect(mapStateToProp, mapDispatchToProps) (App);
